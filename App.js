@@ -1,13 +1,17 @@
 import React from 'react';
-import {NativeBaseProvider} from 'native-base';
+import {NativeBaseProvider, Box} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import MainStack from './src/navigation/MainStack';
+import {StoreProvider} from 'easy-peasy';
+import store from './src/Store/Store';
 
 const App = () => {
   return (
     <NavigationContainer>
       <NativeBaseProvider>
-        <MainStack />
+        <StoreProvider store={store}>
+          <MainStack />
+        </StoreProvider>
       </NativeBaseProvider>
     </NavigationContainer>
   );

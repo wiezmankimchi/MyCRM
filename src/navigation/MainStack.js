@@ -2,9 +2,10 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // import Pages
-import Home from '../screens/Home';
-import Details from '../screens/Details';
-import DrawerMenu from '../screens/DrawerMenu';
+import Home from '~/screens/Home';
+import Login from '~/screens/Login';
+import SignUp from '~/screens/Signup';
+import Dashboard from '~/screens/Dashboard';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,9 +15,10 @@ const MainStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
+      <Stack.Screen name="dashboard" component={Dashboard} />
       <Stack.Screen name="home" component={Home} />
-      <Stack.Screen name="details" component={Details} />
-      <Stack.Screen name="drawer" component={DrawerMenu} />
+      <Stack.Screen name="login" component={Login} />
+      <Stack.Screen name="signup" component={SignUp} />
     </Stack.Navigator>
   );
 };
