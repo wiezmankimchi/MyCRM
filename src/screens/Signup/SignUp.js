@@ -1,11 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Button, Text, VStack, Input} from 'native-base';
 import HomeLogo from '~/components/HomeLogo';
 
-const onSignUpButtonPressed = navigation => navigation.navigate('dosignup');
-const onLoginButtonPressed = navigation => navigation.navigate('login');
+import {useStoreState, useStoreActions, useStore} from 'easy-peasy';
+const navigateTo = (navigation, screenName) => navigation.navigate(screenName);
 
 const SignUp = ({navigation}) => {
+  const store = useStoreState(state => state);
+  const storeActions = useStoreActions(actions => actions);
+  const [form, setform] = useState({email: '', password: ''});
+
+  const onSignUpButtonPressed = () => {
+    console.log('email / password', form);
+    storeActions.setEmail(form.email);
+    storeActions.setPassword(form.password);
+    navigateTo(navigation, 'login');
+  };
+  const onLoginButtonPressed = () => navigateTo(navigation, 'login');
+
   return (
     <Box safeArea p={2}>
       <HomeLogo navigation={navigation} />
@@ -21,7 +33,10 @@ const SignUp = ({navigation}) => {
       <VStack space="5">
         <VStack space="5" alignItems="center">
           <Input
-            value="email"
+            value={form.email}
+            onChangeText={value => {
+              setform({...form, email: value});
+            }}
             placeholder="email"
             borderRadius="13"
             bg="warmGray.200"
@@ -30,7 +45,8 @@ const SignUp = ({navigation}) => {
             size="xl"
           />
           <Input
-            value="password"
+            value={form.password}
+            onChangeText={value => setform({...form, password: value})}
             placeholder="password"
             borderRadius="13"
             bg="warmGray.200"
@@ -51,7 +67,7 @@ const SignUp = ({navigation}) => {
               fontFamily: 'NunitoSans-SemiBold',
               color: 'white',
             }}
-            onPress={() => onSignUpButtonPressed(navigation)}>
+            onPress={() => onSignUpButtonPressed()}>
             Sign Up (skip)
           </Button>
           <Text color="gray.400">Already have an account?</Text>

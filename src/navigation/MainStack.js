@@ -15,10 +15,10 @@ const MainStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="dashboard" component={Dashboard} />
       <Stack.Screen name="home" component={Home} />
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen name="signup" component={SignUp} />
+      <Stack.Screen name="dashboard" component={Dashboard} />
     </Stack.Navigator>
   );
 };

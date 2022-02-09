@@ -1,16 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Button, Text, VStack, Input} from 'native-base';
 import HomeLogo from '~/components/HomeLogo';
 
-import {useStoreState, useStoreActions} from 'easy-peasy';
-const onSignUpButtonPressed = navigation => navigation.navigate('signup');
+import {useStoreState, useStoreActions, useStore} from 'easy-peasy';
+const navigateTo = (navigation, screenName) => navigation.navigate(screenName);
 
 const Login = ({navigation}) => {
   const store = useStoreState(state => state);
   const storeActions = useStoreActions(actions => actions);
+  const [form, setform] = useState({email: '', password: ''});
 
-  const onLoginButtonPressed = () =>
-    console.log('email / password', store.email, store.password);
+  const onSignUpButtonPressed = () => navigateTo(navigation, 'signup');
+  const onLoginButtonPressed = () => {
+    console.log('email / password', form);
+    storeActions.setEmail(form.email);
+    storeActions.setPassword(form.password);
+    navigateTo(navigation, 'dashboard');
+  };
 
   return (
     <Box safeArea p={2} bg="violet.50">
@@ -27,8 +33,10 @@ const Login = ({navigation}) => {
       <VStack space="5">
         <VStack space="5" alignItems="center">
           <Input
-            value={store.email}
-            onChangeText={value => storeActions.setEmail(value)}
+            value={form.email}
+            onChangeText={value => {
+              setform({...form, email: value});
+            }}
             placeholder="email"
             borderRadius="13"
             bg="warmGray.200"
@@ -37,8 +45,8 @@ const Login = ({navigation}) => {
             size="xl"
           />
           <Input
-            value={store.password}
-            onChangeText={value => storeActions.setPassword(value)}
+            value={form.password}
+            onChangeText={value => setform({...form, password: value})}
             placeholder="password"
             borderRadius="13"
             bg="warmGray.200"
@@ -59,7 +67,7 @@ const Login = ({navigation}) => {
               fontFamily: 'NunitoSans-SemiBold',
               color: 'white',
             }}
-            onPress={() => onLoginButtonPressed(navigation)}>
+            onPress={() => onLoginButtonPressed()}>
             Login (skip)
           </Button>
           <Text color="gray.400">Do you need an account?</Text>
@@ -72,7 +80,7 @@ const Login = ({navigation}) => {
               fontFamily: 'NunitoSans-Regular',
               color: 'violet.700',
             }}
-            onPress={() => onSignUpButtonPressed(navigation)}>
+            onPress={() => onSignUpButtonPressed()}>
             Sign Up
           </Button>
         </VStack>
